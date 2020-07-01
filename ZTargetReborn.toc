@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Title: Z-TargetReborn
-## Notes: Uses the Action Camera to emulate The Legend of Zelda's Z-Targeting feature!
+## Notes: Uses the Action Camera to emulate The Legend of Zelda's Z-Targeting feature! (Fork of Z-Target Me!)
 ## Author: Itomeshi, MoonGuard-US (Horde)
 ## SavedVariables: ZTRConfig, ZTR_Init
 ZTargetReborn.xml
