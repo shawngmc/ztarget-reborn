@@ -1,0 +1,11 @@
+<Bindings>
+	<Binding name="Z-Targeting" header="ZTARGETREBORN" category="Z-Target Reborn">
+		ZTarget()
+	</Binding>
+	<Binding name="Z-Target Reborn Options" category="Z-Target Reborn">
+		OptionsOpen()
+	</Binding>
+	<Binding name="Auto-Lock" category="Z-Target Reborn">
+		AutoTarget()
+	</Binding>
+</Bindings>

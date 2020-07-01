@@ -1,0 +1,242 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<Script file="ztargetreborn.lua"/>
+	<Script file="ztargetreborn-config.lua"/>
+
+	<Frame name="ZTargetReborn" parent="UIParent">
+		<Scripts>
+			<OnLoad>
+				ZTR_Config_OnLoad(self);	
+				ZTR_Load(self);			
+			</OnLoad>
+
+			<OnEvent>
+				ZChange(self, event);		
+				ZOffScreen(self, event);
+				ZOnScreen(self, event);
+				WorldEnter(self, event, ...);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+	
+	<Frame name="ZTR_GUIFrame">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Head" inherits="GameFontNormalLarge" text="Z-Target Reborn Options">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="15" y="-15" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="Fairy_Label" inherits="GameFontNormal" text="Fairy">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent_Head">
+							<Offset>
+								<AbsDimension x="15" y="-30" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="GUIOptions" inherits="GameFontNormal" text="Functions">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="Fairy_Label">
+							<Offset>
+								<AbsDimension x="0" y="-140" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<CheckButton name="$parent_ZTR" inherits="UICheckButtonTemplate">
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_Head">
+						<Offset>
+							<AbsDimension x="200" y="6"/>
+						</Offset>
+					</Anchor>
+				</Anchors>   
+			</CheckButton>
+		
+			<Frame name="ZTR_FairyDropDown" inherits="UIDropDownMenuTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="Fairy_Label">
+						<Offset>
+							<AbsDimension x="-20" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+
+            <Button name="$parent_Play" inherits="OptionsButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="ZTR_FairyDropDown">
+                        <Offset>
+                            <AbsDimension x="170" y="-3"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        FairyTest(UIDropDownMenu_GetText(ZTR_FairyDropDown));
+                    </OnClick>
+                </Scripts>
+            </Button>
+			
+			<Slider name="$parent_CoreVolSlider" inherits="OptionsSliderTemplate">
+				<Size>
+					<AbsDimension x="130" y="16"/>
+				</Size>
+				
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="Fairy_Label">
+						<Offset>
+							<AbsDimension x="0" y="-90"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				
+				<Scripts>
+					<OnLoad>
+						getglobal(ZTR_GUIFrame_CoreVolSlider:GetName().."Text"):SetText("Core Volume");
+						getglobal(ZTR_GUIFrame_CoreVolSlider:GetName().."High"):SetText("100%");
+						getglobal(ZTR_GUIFrame_CoreVolSlider:GetName().."Low"):SetText("Off");
+						ZTR_GUIFrame_CoreVolSlider:SetMinMaxValues(0,4);
+						ZTR_GUIFrame_CoreVolSlider:SetValueStep(1);
+					</OnLoad>
+					
+					<OnValueChanged> 
+						CoreVolSlider_OnClick()  
+					</OnValueChanged>
+				</Scripts>
+			</Slider>
+				
+			<Button name="$parent_CVPlay" inherits="OptionsButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_CoreVolSlider">
+						<Offset>
+							<AbsDimension x="150" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						CoreVTest(VolConvert(ZTR_GUIFrame_CoreVolSlider:GetValue()));
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Slider name="$parent_FairyVolSlider" inherits="OptionsSliderTemplate">
+				<Size>
+					<AbsDimension x="130" y="16"/>
+				</Size>
+				
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="Fairy_Label">
+						<Offset>
+							<AbsDimension x="280" y="-90"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				
+				<Scripts>
+					<OnLoad>
+						getglobal(ZTR_GUIFrame_FairyVolSlider:GetName().."Text"):SetText("Fairy Volume");
+						getglobal(ZTR_GUIFrame_FairyVolSlider:GetName().."High"):SetText("100%");
+						getglobal(ZTR_GUIFrame_FairyVolSlider:GetName().."Low"):SetText("Off");
+						ZTR_GUIFrame_FairyVolSlider:SetMinMaxValues(0,4);
+						ZTR_GUIFrame_FairyVolSlider:SetValueStep(1);
+					</OnLoad>
+					
+					<OnValueChanged> 
+						FairyVolSlider_OnClick()  
+					</OnValueChanged>
+				</Scripts>
+			</Slider>
+
+            <Button name="$parent_FVPlay" inherits="OptionsButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent_FairyVolSlider">
+                        <Offset>
+                            <AbsDimension x="150" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        FairyVTest(VolConvert(ZTR_GUIFrame_FairyVolSlider:GetValue()), UIDropDownMenu_GetText(ZTR_FairyDropDown));
+                    </OnClick>
+                </Scripts>
+            </Button>
+			
+			<CheckButton name="$parent_CamOn" inherits="UICheckButtonTemplate">
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="GUIOptions">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>   
+			</CheckButton>
+			
+			<CheckButton name="$parent_AutoLock" inherits="UICheckButtonTemplate">
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_CamOn">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>   
+			</CheckButton>
+			
+			<CheckButton name="$parent_PlateEnable" inherits="UICheckButtonTemplate">
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_AutoLock">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>   
+			</CheckButton>
+
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				ZTR_Panel_OnLoad(self);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
